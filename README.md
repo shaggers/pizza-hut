@@ -1,3 +1,21 @@
+# Create a Pizza Assignment
+
+This project was completed as a technical assignment for Yum. 
+
+Description: Clicking the button on the landing page that says "create pizza" will take you to a menu to
+select all the features and toppings that you would like on the pizza. Clicking submit will place your order
+and tell you exactly what you ordered.
+
+Features:
+- React.js
+- Forms
+- Radio button's
+- Checkbox button's
+- Routing
+- Handling state
+
+# Default React "read me"
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
