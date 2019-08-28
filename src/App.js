@@ -54,6 +54,16 @@ class App extends React.Component {
     }
   }
 
+  verifyFormisFull() {
+    if(this.state.crust === '' ||
+      this.state.cheese === '' ||
+      this.state.sauce === ''
+    ) {
+      window.location.href = "/order_menu"
+      alert("You must enter all required fields");
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -66,6 +76,7 @@ class App extends React.Component {
           <Route path="/order_menu" 
             render={(props) => <OrderMenu 
               callbackFromParent={this.getItems.bind(this)} 
+              verifyFormisFull={this.verifyFormisFull.bind(this)}
             />}
           />
           <Route path="/order_complete" 

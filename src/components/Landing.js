@@ -12,9 +12,9 @@ class Landing extends React.Component {
   
     render() {
       return (
-        <div className="Landing">
+        <div id="Landing">
             <Link to={`/order_menu`}>
-                <button>Order a Pizza</button>
+                <button id="landingButton" type="button"><h2>Order a Pizza</h2></button>
             </Link>
         </div>
       );
