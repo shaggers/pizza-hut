@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class CompleteOrder extends React.Component {
     constructor(props){
@@ -21,7 +22,9 @@ class CompleteOrder extends React.Component {
                   <li className="topping" key={index}>{item}</li> 
                 )}
                 </ul>
-            <button onClick={() => {this.props.makeNewOrder()}}>Order another pizza</button>
+            <Link to={`/order_menu`}>
+                <button onClick={() => this.props.makeNewOrder()}>Order another pizza</button>
+            </Link>   
         </div>
       );
     }

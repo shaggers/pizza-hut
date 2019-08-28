@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class OrderMenu extends React.Component {
     constructor(props){
@@ -82,9 +83,9 @@ class OrderMenu extends React.Component {
               name="topping" value="bacon" onChange={(e) => {this.handleInputChange(e)}}/>
               <label for="toppingChoice3">bacon</label>
             </div>  
-
-            <button type="button" onClick={() => {this.props.getFinishedOrder()}}>Submit</button>
-
+            <Link to={`/order_complete`}>
+            <button type="button">Submit</button>
+            </Link>
           </form>
         </section>
         </div>
