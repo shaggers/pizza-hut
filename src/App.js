@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import * as firebase from 'firebase';
+import OrderMenu from './components/OrderMenu.js';
+import CompleteOrder from './components/CompleteOrder.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAHYzuCP0gWhel5jDtZCc0ne7vKDERkuo8",
@@ -13,87 +15,101 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-function App() {
-  return (
-    <div className="App">
+class App extends React.Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      showOrderButton: true,
+      showOrderMenu: false,
+      showCompleteOrder: false,
+
+      crust: '',
+      cheese: '',
+      sauce: '',
+      toppings: []
+    }
+  }
+
+  openMenu(){
+    this.setState({ showOrderButton: false });
+    this.setState({ showOrderMenu: true });
+  }
+
+  getFinishedOrder(){
+    this.setState({ showOrderMenu: false });
+    this.setState({ showCompleteOrder: true });
+  }
+
+  makeNewOrder(){
+    this.setState({ showCompleteOrder: false });
+    this.setState({ crust: '' });
+    this.setState({ cheese: '' });
+    this.setState({ sauce: '' });
+    this.setState({ toppings: [] });
+    this.setState({ showOrderMenu: true });
+  }
+
+  getItems(item){
+    if(item !== undefined) {
+      const target = item.target;
+      const value = target.value;
+      const name = target.name;
+
+      if(name === "topping") {
+        if(target.checked === true) {
+          this.setState({ toppings: this.state.toppings.concat(value)});
+        } else {
+          this.state.toppings.splice(this.state.toppings.indexOf(value), 1); 
+        }
+      } else {
+        this.setState({ [name]: value })
+      }
+    }
+  }
+
+  render() {
+    return (
+      <div className="App">
       <header className="App-header">
-        <h1>Pizza The Hut</h1>
+        <h1>Pizza Hut</h1>
       </header>
       <main className="App-main">
-        <h3>Order a Pizza</h3>
-        <section className="first-section">
-          <form>
-            <div>
-              <h5>Select Crust</h5>
-           
-              <input type="radio" id="crustChoice1"
-              name="crust" value="pan" />
-              <label for="crustChoice1">pan</label>
 
-              <input type="radio" id="crustChoice2"
-              name="crust" value="original" />
-              <label for="crustChoice2">original</label>
+      {
+        this.state.showOrderButton === true &&
+        <button onClick={() => {this.openMenu()}}>Order a Pizza</button>
+      }
 
-              <input type="radio" id="crustChoice3"
-              name="crust" value="gluten-free" />
-              <label for="crustChoice3">gluten-free</label>
-            </div>
+      {
+        this.state.showOrderMenu === true &&
+        <OrderMenu
+          callbackFromParent={this.getItems.bind(this)}
+          getFinishedOrder={this.getFinishedOrder.bind(this)}
+        />
+      }
+      
+      {
+        this.state.showCompleteOrder === true &&
+        <CompleteOrder
+          crust={this.state.crust}
+          cheese={this.state.cheese}
+          sauce={this.state.sauce}
+          toppings={this.state.toppings}
+          makeNewOrder={this.makeNewOrder.bind(this)}
+        />
+      }
 
-            <div>
-              <h5>Select Sauce</h5>
-
-              <input type="radio" id="sauceChoice1"
-              name="sauce" value="marinera" />
-              <label for="sauceChoice1">marinera</label>
-
-              <input type="radio" id="sauceChoice2"
-              name="sauce" value="alfredo" />
-              <label for="sauceChoice2">alfredo</label>
-
-              <input type="radio" id="sauceChoice3"
-              name="sauce" value="none" />
-              <label for="sauceChoice3">none</label>
-            </div>  
-
-            <div>
-              <h5>Select Cheese</h5>
-
-              <input type="radio" id="cheeseChoice1"
-              name="cheese" value="mozzarella" />
-              <label for="cheeseChoice1">mozzarella</label>
-
-              <input type="radio" id="cheeseChoice2"
-              name="cheese" value="doublemozzarella" />
-              <label for="cheeseChoice2">double mozzarella</label>
-
-              <input type="radio" id="cheeseChoice3"
-              name="cheese" value="mooncheese" />
-              <label for="cheeseChoice3">moon cheese</label>
-            </div>  
-
-            <div>
-              <h5>Select Topings</h5>
-
-              <input type="radio" id="topingChoice1"
-              name="toping" value="pepperoni" />
-              <label for="topingChoice1">pepperoni</label>
-
-              <input type="radio" id="topingChoice2"
-              name="toping" value="peppers" />
-              <label for="topingChoice2">pepper</label>
-
-              <input type="radio" id="topingChoice3"
-              name="toping" value="bacon" />
-              <label for="topingChoice3">bacon</label>
-            </div>  
-
-            <button type="submit">Submit</button>
-
-          </form>
-        </section>
       </main>
     </div>
-  );
+    );
+  }
 }
+
+
+
+
+
+
 
 export default App;
